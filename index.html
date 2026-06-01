@@ -1,0 +1,396 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Repository FAIRness Time Histories</title>
+  <style>
+    :root {
+      color-scheme: light;
+      --bg: #f5f7fa;
+      --panel: #ffffff;
+      --text: #1f2933;
+      --muted: #52606d;
+      --border: #d9e2ec;
+      --accent: #1f4e79;
+    }
+
+    html {
+      scroll-behavior: smooth;
+    }
+
+    body {
+      margin: 0;
+      font-family: Georgia, "Times New Roman", serif;
+      background: var(--bg);
+      color: var(--text);
+    }
+
+    header {
+      position: sticky;
+      top: 0;
+      z-index: 10;
+      padding: 20px 24px;
+      background: rgba(245, 247, 250, 0.96);
+      border-bottom: 1px solid var(--border);
+      backdrop-filter: blur(8px);
+    }
+
+    h1 {
+      margin: 0 0 8px;
+      font-size: 28px;
+      color: var(--accent);
+    }
+
+    p {
+      margin: 0;
+      color: var(--muted);
+      font-size: 15px;
+    }
+
+    main {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 24px;
+    }
+
+    nav,
+    .selector {
+      margin-bottom: 28px;
+      padding: 18px;
+      background: var(--panel);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      box-shadow: 0 6px 18px rgba(15, 23, 42, 0.06);
+    }
+
+    nav h2,
+    .selector h2 {
+      margin: 0 0 12px;
+      font-size: 20px;
+      color: var(--accent);
+    }
+
+    nav ul {
+      margin: 0;
+      padding-left: 18px;
+      column-width: 320px;
+      column-gap: 24px;
+    }
+
+    nav li {
+      margin-bottom: 6px;
+      break-inside: avoid;
+      word-break: break-word;
+    }
+
+    .selector-controls {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      align-items: center;
+    }
+
+    select,
+    button {
+      font: inherit;
+      font-size: 15px;
+      padding: 8px 10px;
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      background: #fff;
+      color: var(--text);
+    }
+
+    button {
+      cursor: pointer;
+      color: #fff;
+      background: var(--accent);
+      border-color: var(--accent);
+    }
+
+    button:hover {
+      filter: brightness(1.05);
+    }
+
+    section {
+      margin-bottom: 28px;
+      padding: 16px;
+      background: var(--panel);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      box-shadow: 0 6px 18px rgba(15, 23, 42, 0.06);
+      scroll-margin-top: 160px;
+    }
+
+    h3 {
+      margin: 0 0 12px;
+      font-size: 20px;
+      word-break: break-word;
+    }
+
+    a {
+      color: var(--accent);
+      text-decoration: none;
+    }
+
+    a:hover {
+      text-decoration: underline;
+    }
+
+    .top-link {
+      display: inline-block;
+      margin-top: 12px;
+      font-size: 14px;
+      color: var(--muted);
+    }
+
+    img {
+      display: block;
+      width: 100%;
+      height: auto;
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      background: #fff;
+    }
+
+    @media (max-width: 720px) {
+      header {
+        position: static;
+      }
+
+      section {
+        scroll-margin-top: 24px;
+      }
+
+      nav ul {
+        column-width: auto;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div id="page-top"></div>
+  <header>
+    <h1>Repository FAIRness Time Histories</h1>
+    <p>Interactive index for repository FAIRness history plots generated from files matching Rep*.png.</p>
+  </header>
+
+  <main>
+    <div class="selector" aria-label="Image selector">
+      <h2>Quick Select</h2>
+      <div class="selector-controls">
+        <label for="image-picker">Choose an image:</label>
+        <select id="image-picker">
+          <option value="repository-ada-repo-time-history-2026-06-01t14-png" title="Repository_ada.repo_Time_History_2026-06-01T14.png">ada.repo</option>
+          <option value="repository-ardcx-curtin-time-history-2026-06-01t14-png" title="Repository_ardcx.curtin_Time_History_2026-06-01T14.png">ardcx.curtin</option>
+          <option value="repository-ardcx-flinders-time-history-2026-06-01t14-png" title="Repository_ardcx.flinders_Time_History_2026-06-01T14.png">ardcx.flinders</option>
+          <option value="repository-ardcx-uts-time-history-2026-06-01t14-png" title="Repository_ardcx.uts_Time_History_2026-06-01T14.png">ardcx.uts</option>
+          <option value="repository-bl-brookes-time-history-2026-06-01t14-png" title="Repository_bl.brookes_Time_History_2026-06-01T14.png">bl.brookes</option>
+          <option value="repository-bl-kcl-time-history-2026-06-01t14-png" title="Repository_bl.kcl_Time_History_2026-06-01T14.png">bl.kcl</option>
+          <option value="repository-cul-grg-time-history-2026-06-01t14-png" title="Repository_cul.grg_Time_History_2026-06-01T14.png">cul.grg</option>
+          <option value="repository-delft-isric-time-history-2026-06-01t15-png" title="Repository_delft.isric_Time_History_2026-06-01T15.png">delft.isric</option>
+          <option value="repository-delft-maastro-time-history-2026-06-01t15-png" title="Repository_delft.maastro_Time_History_2026-06-01T15.png">delft.maastro</option>
+          <option value="repository-dk-dtic-time-history-2026-06-01t15-png" title="Repository_dk.dtic_Time_History_2026-06-01T15.png">dk.dtic</option>
+          <option value="repository-dryad-dryad-time-history-2026-06-01t15-png" title="Repository_dryad.dryad_Time_History_2026-06-01T15.png">dryad.dryad</option>
+          <option value="repository-epua-zfkd-time-history-2026-06-01t15-png" title="Repository_epua.zfkd_Time_History_2026-06-01T15.png">epua.zfkd</option>
+          <option value="repository-ethz-sed-time-history-2026-06-01t15-png" title="Repository_ethz.sed_Time_History_2026-06-01T15.png">ethz.sed</option>
+          <option value="repository-ethz-wgms-time-history-2026-06-01t15-png" title="Repository_ethz.wgms_Time_History_2026-06-01T15.png">ethz.wgms</option>
+          <option value="repository-figshare-ncl-time-history-2026-06-01t15-png" title="Repository_figshare.ncl_Time_History_2026-06-01T15.png">figshare.ncl</option>
+          <option value="repository-gdcc-consorcio-time-history-2026-06-01t15-png" title="Repository_gdcc.consorcio_Time_History_2026-06-01T15.png">gdcc.consorcio</option>
+          <option value="repository-gdcc-jhu-time-history-2026-06-01t15-png" title="Repository_gdcc.jhu_Time_History_2026-06-01T15.png">gdcc.jhu</option>
+          <option value="repository-gdcc-syr-qdr-time-history-2026-06-01t15-png" title="Repository_gdcc.syr-qdr_Time_History_2026-06-01T15.png">gdcc.syr-qdr</option>
+          <option value="repository-nkn-nkn-time-history-2026-06-01t15-png" title="Repository_nkn.nkn_Time_History_2026-06-01T15.png">nkn.nkn</option>
+          <option value="repository-osu-osu-time-history-2026-06-01t15-png" title="Repository_osu.osu_Time_History_2026-06-01T15.png">osu.osu</option>
+          <option value="repository-purdue-purduelib-time-history-2026-06-01t15-png" title="Repository_purdue.purduelib_Time_History_2026-06-01T15.png">purdue.purduelib</option>
+          <option value="repository-sfu-summit-time-history-2026-06-01t15-png" title="Repository_sfu.summit_Time_History_2026-06-01T15.png">sfu.summit</option>
+          <option value="repository-snd-ddb-time-history-2026-06-01t15-png" title="Repository_snd.ddb_Time_History_2026-06-01T15.png">snd.ddb</option>
+          <option value="repository-tib-gfzbib-time-history-2026-06-01t15-png" title="Repository_tib.gfzbib_Time_History_2026-06-01T15.png">tib.gfzbib</option>
+          <option value="repository-tib-iow-time-history-2026-06-01t15-png" title="Repository_tib.iow_Time_History_2026-06-01T15.png">tib.iow</option>
+          <option value="repository-usda-usda-time-history-2026-06-01t15-png" title="Repository_usda.usda_Time_History_2026-06-01T15.png">usda.usda</option>
+        </select>
+        <button id="jump-button" type="button">Go to image</button>
+      </div>
+    </div>
+
+    <nav>
+      <h2>Contents</h2>
+      <ul>
+        <li><a href="#repository-ada-repo-time-history-2026-06-01t14-png" title="Repository_ada.repo_Time_History_2026-06-01T14.png">ada.repo</a></li>
+        <li><a href="#repository-ardcx-curtin-time-history-2026-06-01t14-png" title="Repository_ardcx.curtin_Time_History_2026-06-01T14.png">ardcx.curtin</a></li>
+        <li><a href="#repository-ardcx-flinders-time-history-2026-06-01t14-png" title="Repository_ardcx.flinders_Time_History_2026-06-01T14.png">ardcx.flinders</a></li>
+        <li><a href="#repository-ardcx-uts-time-history-2026-06-01t14-png" title="Repository_ardcx.uts_Time_History_2026-06-01T14.png">ardcx.uts</a></li>
+        <li><a href="#repository-bl-brookes-time-history-2026-06-01t14-png" title="Repository_bl.brookes_Time_History_2026-06-01T14.png">bl.brookes</a></li>
+        <li><a href="#repository-bl-kcl-time-history-2026-06-01t14-png" title="Repository_bl.kcl_Time_History_2026-06-01T14.png">bl.kcl</a></li>
+        <li><a href="#repository-cul-grg-time-history-2026-06-01t14-png" title="Repository_cul.grg_Time_History_2026-06-01T14.png">cul.grg</a></li>
+        <li><a href="#repository-delft-isric-time-history-2026-06-01t15-png" title="Repository_delft.isric_Time_History_2026-06-01T15.png">delft.isric</a></li>
+        <li><a href="#repository-delft-maastro-time-history-2026-06-01t15-png" title="Repository_delft.maastro_Time_History_2026-06-01T15.png">delft.maastro</a></li>
+        <li><a href="#repository-dk-dtic-time-history-2026-06-01t15-png" title="Repository_dk.dtic_Time_History_2026-06-01T15.png">dk.dtic</a></li>
+        <li><a href="#repository-dryad-dryad-time-history-2026-06-01t15-png" title="Repository_dryad.dryad_Time_History_2026-06-01T15.png">dryad.dryad</a></li>
+        <li><a href="#repository-epua-zfkd-time-history-2026-06-01t15-png" title="Repository_epua.zfkd_Time_History_2026-06-01T15.png">epua.zfkd</a></li>
+        <li><a href="#repository-ethz-sed-time-history-2026-06-01t15-png" title="Repository_ethz.sed_Time_History_2026-06-01T15.png">ethz.sed</a></li>
+        <li><a href="#repository-ethz-wgms-time-history-2026-06-01t15-png" title="Repository_ethz.wgms_Time_History_2026-06-01T15.png">ethz.wgms</a></li>
+        <li><a href="#repository-figshare-ncl-time-history-2026-06-01t15-png" title="Repository_figshare.ncl_Time_History_2026-06-01T15.png">figshare.ncl</a></li>
+        <li><a href="#repository-gdcc-consorcio-time-history-2026-06-01t15-png" title="Repository_gdcc.consorcio_Time_History_2026-06-01T15.png">gdcc.consorcio</a></li>
+        <li><a href="#repository-gdcc-jhu-time-history-2026-06-01t15-png" title="Repository_gdcc.jhu_Time_History_2026-06-01T15.png">gdcc.jhu</a></li>
+        <li><a href="#repository-gdcc-syr-qdr-time-history-2026-06-01t15-png" title="Repository_gdcc.syr-qdr_Time_History_2026-06-01T15.png">gdcc.syr-qdr</a></li>
+        <li><a href="#repository-nkn-nkn-time-history-2026-06-01t15-png" title="Repository_nkn.nkn_Time_History_2026-06-01T15.png">nkn.nkn</a></li>
+        <li><a href="#repository-osu-osu-time-history-2026-06-01t15-png" title="Repository_osu.osu_Time_History_2026-06-01T15.png">osu.osu</a></li>
+        <li><a href="#repository-purdue-purduelib-time-history-2026-06-01t15-png" title="Repository_purdue.purduelib_Time_History_2026-06-01T15.png">purdue.purduelib</a></li>
+        <li><a href="#repository-sfu-summit-time-history-2026-06-01t15-png" title="Repository_sfu.summit_Time_History_2026-06-01T15.png">sfu.summit</a></li>
+        <li><a href="#repository-snd-ddb-time-history-2026-06-01t15-png" title="Repository_snd.ddb_Time_History_2026-06-01T15.png">snd.ddb</a></li>
+        <li><a href="#repository-tib-gfzbib-time-history-2026-06-01t15-png" title="Repository_tib.gfzbib_Time_History_2026-06-01T15.png">tib.gfzbib</a></li>
+        <li><a href="#repository-tib-iow-time-history-2026-06-01t15-png" title="Repository_tib.iow_Time_History_2026-06-01T15.png">tib.iow</a></li>
+        <li><a href="#repository-usda-usda-time-history-2026-06-01t15-png" title="Repository_usda.usda_Time_History_2026-06-01T15.png">usda.usda</a></li>
+      </ul>
+    </nav>
+
+    <section id="repository-ada-repo-time-history-2026-06-01t14-png">
+      <h3><a href="Repository_ada.repo_Time_History_2026-06-01T14.png" title="Repository_ada.repo_Time_History_2026-06-01T14.png">ada.repo</a></h3>
+      <img src="Repository_ada.repo_Time_History_2026-06-01T14.png" alt="Repository_ada.repo_Time_History_2026-06-01T14.png">
+      <a class="top-link" href="#page-top">Back to top</a>
+    </section>
+    <section id="repository-ardcx-curtin-time-history-2026-06-01t14-png">
+      <h3><a href="Repository_ardcx.curtin_Time_History_2026-06-01T14.png" title="Repository_ardcx.curtin_Time_History_2026-06-01T14.png">ardcx.curtin</a></h3>
+      <img src="Repository_ardcx.curtin_Time_History_2026-06-01T14.png" alt="Repository_ardcx.curtin_Time_History_2026-06-01T14.png">
+      <a class="top-link" href="#page-top">Back to top</a>
+    </section>
+    <section id="repository-ardcx-flinders-time-history-2026-06-01t14-png">
+      <h3><a href="Repository_ardcx.flinders_Time_History_2026-06-01T14.png" title="Repository_ardcx.flinders_Time_History_2026-06-01T14.png">ardcx.flinders</a></h3>
+      <img src="Repository_ardcx.flinders_Time_History_2026-06-01T14.png" alt="Repository_ardcx.flinders_Time_History_2026-06-01T14.png">
+      <a class="top-link" href="#page-top">Back to top</a>
+    </section>
+    <section id="repository-ardcx-uts-time-history-2026-06-01t14-png">
+      <h3><a href="Repository_ardcx.uts_Time_History_2026-06-01T14.png" title="Repository_ardcx.uts_Time_History_2026-06-01T14.png">ardcx.uts</a></h3>
+      <img src="Repository_ardcx.uts_Time_History_2026-06-01T14.png" alt="Repository_ardcx.uts_Time_History_2026-06-01T14.png">
+      <a class="top-link" href="#page-top">Back to top</a>
+    </section>
+    <section id="repository-bl-brookes-time-history-2026-06-01t14-png">
+      <h3><a href="Repository_bl.brookes_Time_History_2026-06-01T14.png" title="Repository_bl.brookes_Time_History_2026-06-01T14.png">bl.brookes</a></h3>
+      <img src="Repository_bl.brookes_Time_History_2026-06-01T14.png" alt="Repository_bl.brookes_Time_History_2026-06-01T14.png">
+      <a class="top-link" href="#page-top">Back to top</a>
+    </section>
+    <section id="repository-bl-kcl-time-history-2026-06-01t14-png">
+      <h3><a href="Repository_bl.kcl_Time_History_2026-06-01T14.png" title="Repository_bl.kcl_Time_History_2026-06-01T14.png">bl.kcl</a></h3>
+      <img src="Repository_bl.kcl_Time_History_2026-06-01T14.png" alt="Repository_bl.kcl_Time_History_2026-06-01T14.png">
+      <a class="top-link" href="#page-top">Back to top</a>
+    </section>
+    <section id="repository-cul-grg-time-history-2026-06-01t14-png">
+      <h3><a href="Repository_cul.grg_Time_History_2026-06-01T14.png" title="Repository_cul.grg_Time_History_2026-06-01T14.png">cul.grg</a></h3>
+      <img src="Repository_cul.grg_Time_History_2026-06-01T14.png" alt="Repository_cul.grg_Time_History_2026-06-01T14.png">
+      <a class="top-link" href="#page-top">Back to top</a>
+    </section>
+    <section id="repository-delft-isric-time-history-2026-06-01t15-png">
+      <h3><a href="Repository_delft.isric_Time_History_2026-06-01T15.png" title="Repository_delft.isric_Time_History_2026-06-01T15.png">delft.isric</a></h3>
+      <img src="Repository_delft.isric_Time_History_2026-06-01T15.png" alt="Repository_delft.isric_Time_History_2026-06-01T15.png">
+      <a class="top-link" href="#page-top">Back to top</a>
+    </section>
+    <section id="repository-delft-maastro-time-history-2026-06-01t15-png">
+      <h3><a href="Repository_delft.maastro_Time_History_2026-06-01T15.png" title="Repository_delft.maastro_Time_History_2026-06-01T15.png">delft.maastro</a></h3>
+      <img src="Repository_delft.maastro_Time_History_2026-06-01T15.png" alt="Repository_delft.maastro_Time_History_2026-06-01T15.png">
+      <a class="top-link" href="#page-top">Back to top</a>
+    </section>
+    <section id="repository-dk-dtic-time-history-2026-06-01t15-png">
+      <h3><a href="Repository_dk.dtic_Time_History_2026-06-01T15.png" title="Repository_dk.dtic_Time_History_2026-06-01T15.png">dk.dtic</a></h3>
+      <img src="Repository_dk.dtic_Time_History_2026-06-01T15.png" alt="Repository_dk.dtic_Time_History_2026-06-01T15.png">
+      <a class="top-link" href="#page-top">Back to top</a>
+    </section>
+    <section id="repository-dryad-dryad-time-history-2026-06-01t15-png">
+      <h3><a href="Repository_dryad.dryad_Time_History_2026-06-01T15.png" title="Repository_dryad.dryad_Time_History_2026-06-01T15.png">dryad.dryad</a></h3>
+      <img src="Repository_dryad.dryad_Time_History_2026-06-01T15.png" alt="Repository_dryad.dryad_Time_History_2026-06-01T15.png">
+      <a class="top-link" href="#page-top">Back to top</a>
+    </section>
+    <section id="repository-epua-zfkd-time-history-2026-06-01t15-png">
+      <h3><a href="Repository_epua.zfkd_Time_History_2026-06-01T15.png" title="Repository_epua.zfkd_Time_History_2026-06-01T15.png">epua.zfkd</a></h3>
+      <img src="Repository_epua.zfkd_Time_History_2026-06-01T15.png" alt="Repository_epua.zfkd_Time_History_2026-06-01T15.png">
+      <a class="top-link" href="#page-top">Back to top</a>
+    </section>
+    <section id="repository-ethz-sed-time-history-2026-06-01t15-png">
+      <h3><a href="Repository_ethz.sed_Time_History_2026-06-01T15.png" title="Repository_ethz.sed_Time_History_2026-06-01T15.png">ethz.sed</a></h3>
+      <img src="Repository_ethz.sed_Time_History_2026-06-01T15.png" alt="Repository_ethz.sed_Time_History_2026-06-01T15.png">
+      <a class="top-link" href="#page-top">Back to top</a>
+    </section>
+    <section id="repository-ethz-wgms-time-history-2026-06-01t15-png">
+      <h3><a href="Repository_ethz.wgms_Time_History_2026-06-01T15.png" title="Repository_ethz.wgms_Time_History_2026-06-01T15.png">ethz.wgms</a></h3>
+      <img src="Repository_ethz.wgms_Time_History_2026-06-01T15.png" alt="Repository_ethz.wgms_Time_History_2026-06-01T15.png">
+      <a class="top-link" href="#page-top">Back to top</a>
+    </section>
+    <section id="repository-figshare-ncl-time-history-2026-06-01t15-png">
+      <h3><a href="Repository_figshare.ncl_Time_History_2026-06-01T15.png" title="Repository_figshare.ncl_Time_History_2026-06-01T15.png">figshare.ncl</a></h3>
+      <img src="Repository_figshare.ncl_Time_History_2026-06-01T15.png" alt="Repository_figshare.ncl_Time_History_2026-06-01T15.png">
+      <a class="top-link" href="#page-top">Back to top</a>
+    </section>
+    <section id="repository-gdcc-consorcio-time-history-2026-06-01t15-png">
+      <h3><a href="Repository_gdcc.consorcio_Time_History_2026-06-01T15.png" title="Repository_gdcc.consorcio_Time_History_2026-06-01T15.png">gdcc.consorcio</a></h3>
+      <img src="Repository_gdcc.consorcio_Time_History_2026-06-01T15.png" alt="Repository_gdcc.consorcio_Time_History_2026-06-01T15.png">
+      <a class="top-link" href="#page-top">Back to top</a>
+    </section>
+    <section id="repository-gdcc-jhu-time-history-2026-06-01t15-png">
+      <h3><a href="Repository_gdcc.jhu_Time_History_2026-06-01T15.png" title="Repository_gdcc.jhu_Time_History_2026-06-01T15.png">gdcc.jhu</a></h3>
+      <img src="Repository_gdcc.jhu_Time_History_2026-06-01T15.png" alt="Repository_gdcc.jhu_Time_History_2026-06-01T15.png">
+      <a class="top-link" href="#page-top">Back to top</a>
+    </section>
+    <section id="repository-gdcc-syr-qdr-time-history-2026-06-01t15-png">
+      <h3><a href="Repository_gdcc.syr-qdr_Time_History_2026-06-01T15.png" title="Repository_gdcc.syr-qdr_Time_History_2026-06-01T15.png">gdcc.syr-qdr</a></h3>
+      <img src="Repository_gdcc.syr-qdr_Time_History_2026-06-01T15.png" alt="Repository_gdcc.syr-qdr_Time_History_2026-06-01T15.png">
+      <a class="top-link" href="#page-top">Back to top</a>
+    </section>
+    <section id="repository-nkn-nkn-time-history-2026-06-01t15-png">
+      <h3><a href="Repository_nkn.nkn_Time_History_2026-06-01T15.png" title="Repository_nkn.nkn_Time_History_2026-06-01T15.png">nkn.nkn</a></h3>
+      <img src="Repository_nkn.nkn_Time_History_2026-06-01T15.png" alt="Repository_nkn.nkn_Time_History_2026-06-01T15.png">
+      <a class="top-link" href="#page-top">Back to top</a>
+    </section>
+    <section id="repository-osu-osu-time-history-2026-06-01t15-png">
+      <h3><a href="Repository_osu.osu_Time_History_2026-06-01T15.png" title="Repository_osu.osu_Time_History_2026-06-01T15.png">osu.osu</a></h3>
+      <img src="Repository_osu.osu_Time_History_2026-06-01T15.png" alt="Repository_osu.osu_Time_History_2026-06-01T15.png">
+      <a class="top-link" href="#page-top">Back to top</a>
+    </section>
+    <section id="repository-purdue-purduelib-time-history-2026-06-01t15-png">
+      <h3><a href="Repository_purdue.purduelib_Time_History_2026-06-01T15.png" title="Repository_purdue.purduelib_Time_History_2026-06-01T15.png">purdue.purduelib</a></h3>
+      <img src="Repository_purdue.purduelib_Time_History_2026-06-01T15.png" alt="Repository_purdue.purduelib_Time_History_2026-06-01T15.png">
+      <a class="top-link" href="#page-top">Back to top</a>
+    </section>
+    <section id="repository-sfu-summit-time-history-2026-06-01t15-png">
+      <h3><a href="Repository_sfu.summit_Time_History_2026-06-01T15.png" title="Repository_sfu.summit_Time_History_2026-06-01T15.png">sfu.summit</a></h3>
+      <img src="Repository_sfu.summit_Time_History_2026-06-01T15.png" alt="Repository_sfu.summit_Time_History_2026-06-01T15.png">
+      <a class="top-link" href="#page-top">Back to top</a>
+    </section>
+    <section id="repository-snd-ddb-time-history-2026-06-01t15-png">
+      <h3><a href="Repository_snd.ddb_Time_History_2026-06-01T15.png" title="Repository_snd.ddb_Time_History_2026-06-01T15.png">snd.ddb</a></h3>
+      <img src="Repository_snd.ddb_Time_History_2026-06-01T15.png" alt="Repository_snd.ddb_Time_History_2026-06-01T15.png">
+      <a class="top-link" href="#page-top">Back to top</a>
+    </section>
+    <section id="repository-tib-gfzbib-time-history-2026-06-01t15-png">
+      <h3><a href="Repository_tib.gfzbib_Time_History_2026-06-01T15.png" title="Repository_tib.gfzbib_Time_History_2026-06-01T15.png">tib.gfzbib</a></h3>
+      <img src="Repository_tib.gfzbib_Time_History_2026-06-01T15.png" alt="Repository_tib.gfzbib_Time_History_2026-06-01T15.png">
+      <a class="top-link" href="#page-top">Back to top</a>
+    </section>
+    <section id="repository-tib-iow-time-history-2026-06-01t15-png">
+      <h3><a href="Repository_tib.iow_Time_History_2026-06-01T15.png" title="Repository_tib.iow_Time_History_2026-06-01T15.png">tib.iow</a></h3>
+      <img src="Repository_tib.iow_Time_History_2026-06-01T15.png" alt="Repository_tib.iow_Time_History_2026-06-01T15.png">
+      <a class="top-link" href="#page-top">Back to top</a>
+    </section>
+    <section id="repository-usda-usda-time-history-2026-06-01t15-png">
+      <h3><a href="Repository_usda.usda_Time_History_2026-06-01T15.png" title="Repository_usda.usda_Time_History_2026-06-01T15.png">usda.usda</a></h3>
+      <img src="Repository_usda.usda_Time_History_2026-06-01T15.png" alt="Repository_usda.usda_Time_History_2026-06-01T15.png">
+      <a class="top-link" href="#page-top">Back to top</a>
+    </section>
+  </main>
+
+  <script>
+    const picker = document.getElementById("image-picker");
+    const jumpButton = document.getElementById("jump-button");
+
+    function jumpToSelectedImage() {
+      const targetId = picker.value;
+      const target = document.getElementById(targetId);
+      if (target) {
+        target.scrollIntoView({ behavior: "smooth", block: "start" });
+      }
+    }
+
+    jumpButton.addEventListener("click", jumpToSelectedImage);
+    picker.addEventListener("change", jumpToSelectedImage);
+  </script>
+</body>
+</html>
