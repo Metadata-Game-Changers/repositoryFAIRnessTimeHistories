@@ -293,10 +293,18 @@ def main() -> None:
     args = parser.parse_args()
 
     image_dir = args.dir.resolve()
-    image_names = sorted([p.name for p in image_dir.glob("Rep*.png")], key=str.lower)
+    image_names = sorted([p.name for p in image_dir.glob("Repository*.png")], key=str.lower)   # make list of all Repository*.png files in the directory, sorted case-insensitively
+    
+    timeStamp = '-07T10'
+    for i, name in enumerate(image_names):
+        if timeStamp not in name:
+            continue  # skip files that don't include the timestamp pattern
+        new_name = name.replace(timeStamp, '')  # remove the timestamp from the filename
+        (image_dir / name).rename(image_dir / new_name)
+        image_names[i] = new_name
 
     if not image_names:
-        raise SystemExit(f"No files matching Rep*.png in {image_dir}")
+        raise SystemExit(f"No files matching Repository*.png in {image_dir}")
 
     html_text = build_html(image_names, args.title)
     out_path = image_dir / "index.html"
