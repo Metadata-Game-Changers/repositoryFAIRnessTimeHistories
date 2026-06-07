@@ -6,8 +6,9 @@ from __future__ import annotations
 import argparse
 import html
 import re
+import pandas as pd
+from tabulate import tabulate
 from pathlib import Path
-
 
 def make_id(filename: str) -> str:
     """Create a stable anchor id from a filename."""
@@ -22,8 +23,72 @@ def display_label(filename: str) -> str:
         return parts[1]
     return filename
 
+def makeRepositoryRangeTable(rangeLimit=0.15):
 
-def build_html(image_names: list[str], page_title: str) -> str:
+    rangeFile = 'longTermRepositoryFairUseCasesByYearRange.csv'
+    range_df = pd.read_csv(rangeFile)
+    range_df = range_df[['Repository Names', 'Total']]
+ #   range_df = range_df.rename(columns={'Total': 'Total FAIRness Range'})
+
+    table_df = makeSquishedTable(range_df[range_df['Total'] >= rangeLimit], 3, False)
+    return table_df
+
+def makeSquishedTable(df, numberOfSets=2, transpose=True):
+    '''
+        This function takes a dataframe and returns a dataframe with long rows 
+        compressed into columns. This is used to convert a spiral results table
+        with 25 columns in two rows intof a table with seven rows and eight columns
+        (numberOfSets = 4). The squishing makes it possible to include the table 
+        in a report with portrait orientation
+        
+        Args:
+            df (dataframe): The dataframe to be squished
+            numberOfSets (int, default = 2): The number of sets of columns
+
+        Attributes:
+
+        Returns:
+            table_df (dataframe): The squished dataframe
+
+        Notes:
+    '''
+
+    if transpose:
+        df_t    = df.transpose()                                       # transpose the dataframe so that concepts are rows instead of columns
+    else:
+        df_t    = df
+
+    for i in range(len(df_t)):                                     # convert floats to % in Scores
+        if isinstance(df_t.iloc[i,0], float):
+                df_t.iloc[i,0] = f'{df_t.iloc[i,0]:.0%}'
+
+    if transpose == True:
+        if len(df.columns) / numberOfSets == int(len(df.columns) / numberOfSets):   # calculate the number of rows per set, rounding up if necessary
+            rowsPerSet = int(len(df.columns) / numberOfSets)
+        else:
+            rowsPerSet = int(len(df.columns) / numberOfSets) + 1
+    else:
+        rowsPerSet = int(len(df) / numberOfSets) + 1
+
+    table_df = pd.DataFrame()
+    i = 0
+    col = []
+
+    while i < len(df_t):
+        j = i + rowsPerSet
+        df_i = df_t.iloc[i:j]
+        df_i.reset_index(inplace=True, drop=True)
+        table_df = pd.concat([table_df, df_i], axis=1, ignore_index=True)
+        if transpose == True:
+            col.extend(['Concept', 'Score'])
+        else:
+            col.extend(df.columns)
+        i += rowsPerSet
+
+    table_df.columns = col
+    return table_df.fillna('')
+
+def build_html(image_names: list[str], page_title: str, range_html: str) -> str:
     options = []
     toc_items = []
     sections = []
@@ -233,6 +298,9 @@ def build_html(image_names: list[str], page_title: str) -> str:
             "  </header>",
             "",
             "  <main>",
+                    "<h3>Repository FAIRness Range</h3>",
+                    f"      {range_html}",
+
             '    <div class="selector" aria-label="Image selector">',
             "      <h2>Quick Select</h2>",
             '      <div class="selector-controls">',
@@ -292,6 +360,13 @@ def main() -> None:
     )
     args = parser.parse_args()
 
+    range_df    = makeRepositoryRangeTable()
+    range_html  = tabulate(range_df, headers=list(range_df.columns), tablefmt="html", showindex=False)
+    range_html = range_html.replace("<table>", '<table style="border-collapse: collapse; border: 1px solid black; width: 100%;">')  # add inline styles for better table appearance
+    range_html = range_html.replace("<th>", '<th style="border: 1px solid black; padding: 8px;">')
+    range_html = range_html.replace("<td>", '<td style="border: 1px solid black; padding: 8px;">')
+    range_html = range_html.replace('<td style="text-align: right;">', '<td style="border: 1px solid black; padding: 8px;">')
+
     image_dir = args.dir.resolve()
     image_names = sorted([p.name for p in image_dir.glob("Repository*.png")], key=str.lower)   # make list of all Repository*.png files in the directory, sorted case-insensitively
     
@@ -306,7 +381,7 @@ def main() -> None:
     if not image_names:
         raise SystemExit(f"No files matching Repository*.png in {image_dir}")
 
-    html_text = build_html(image_names, args.title)
+    html_text = build_html(image_names, args.title, range_html)
     out_path = image_dir / "index.html"
     out_path.write_text(html_text, encoding="utf-8")
 
