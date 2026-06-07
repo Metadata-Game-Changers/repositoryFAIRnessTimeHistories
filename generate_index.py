@@ -27,10 +27,16 @@ def makeRepositoryRangeTable(rangeLimit=0.15):
 
     rangeFile = 'longTermRepositoryFairUseCasesByYearRange.csv'
     range_df = pd.read_csv(rangeFile)
-    range_df = range_df[['Repository Names', 'Total']]
- #   range_df = range_df.rename(columns={'Total': 'Total FAIRness Range'})
+    range_df = range_df[['Repository Name', 'Total']]
+    range_df = range_df.rename(columns={'Total': 'Range'})
 
-    table_df = makeSquishedTable(range_df[range_df['Total'] >= rangeLimit], 3, False)
+    for i in range(len(range_df)):
+        m = re.search(r"\(([^()]*)\)$", range_df['Repository Name'].iloc[i])
+        if m:
+            rep_id = m.group(1)
+            range_df.at[i, 'Repository Name'] = range_df.at[i, 'Repository Name'].replace(rep_id,f'<a href="#repository-{rep_id.replace(".","-")}-time-history-2026-06-png" title="Repository_{rep_id}_Time_History_2026-06.png">{rep_id}</a>')
+
+    table_df = makeSquishedTable(range_df[range_df['Range'] >= rangeLimit], 3, False)
     return table_df
 
 def makeSquishedTable(df, numberOfSets=2, transpose=True):
@@ -59,8 +65,8 @@ def makeSquishedTable(df, numberOfSets=2, transpose=True):
         df_t    = df
 
     for i in range(len(df_t)):                                     # convert floats to % in Scores
-        if isinstance(df_t.iloc[i,0], float):
-                df_t.iloc[i,0] = f'{df_t.iloc[i,0]:.0%}'
+        if isinstance(df_t.iloc[i,1], float):
+                df_t.iloc[i,1] = f'{df_t.iloc[i,1]:.0%}'
 
     if transpose == True:
         if len(df.columns) / numberOfSets == int(len(df.columns) / numberOfSets):   # calculate the number of rows per set, rounding up if necessary
@@ -298,8 +304,6 @@ def build_html(image_names: list[str], page_title: str, range_html: str) -> str:
             "  </header>",
             "",
             "  <main>",
-                    "<h3>Repository FAIRness Range</h3>",
-                    f"      {range_html}",
 
             '    <div class="selector" aria-label="Image selector">',
             "      <h2>Quick Select</h2>",
@@ -312,6 +316,12 @@ def build_html(image_names: list[str], page_title: str, range_html: str) -> str:
             "      </div>",
             "    </div>",
             "",
+                    "<nav>"
+                    "<h3>Repository FAIRness Ranges</h3>",
+                    f"{range_html}",
+                    "</nav>",
+
+    
             "    <nav>",
             "      <h2>Contents</h2>",
             "      <ul>",
@@ -366,6 +376,7 @@ def main() -> None:
     range_html = range_html.replace("<th>", '<th style="border: 1px solid black; padding: 8px;">')
     range_html = range_html.replace("<td>", '<td style="border: 1px solid black; padding: 8px;">')
     range_html = range_html.replace('<td style="text-align: right;">', '<td style="border: 1px solid black; padding: 8px;">')
+    range_html = range_html.replace("&lt;", "<").replace("&gt;", ">").replace("&quot;", '"')  # unescape <, >, and " in the table
 
     image_dir = args.dir.resolve()
     image_names = sorted([p.name for p in image_dir.glob("Repository*.png")], key=str.lower)   # make list of all Repository*.png files in the directory, sorted case-insensitively
