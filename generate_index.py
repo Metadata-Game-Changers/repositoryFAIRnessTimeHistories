@@ -58,7 +58,6 @@ def makeSquishedTable(df, numberOfSets=2, transpose=True):
 
         Notes:
     '''
-
     if transpose:
         df_t    = df.transpose()                                       # transpose the dataframe so that concepts are rows instead of columns
     else:
@@ -148,7 +147,8 @@ def build_html(image_names: list[str], page_title: str, range_html: str) -> str:
             "",
             "    body {",
             "      margin: 0;",
-            "      font-family: Georgia, \"Times New Roman\", serif;",
+            "      font-family: 'Century Gothic', CenturyGothic, AppleGothic, gothic, Arial, Helvetica, sans-serif;",
+            "      font-size: medium;",
             "      background: var(--bg);",
             "      color: var(--text);",
             "    }",
@@ -299,14 +299,21 @@ def build_html(image_names: list[str], page_title: str, range_html: str) -> str:
             "<body>",
             '  <div id="page-top"></div>',
             "  <header>",
-            f"    <h1>{html.escape(page_title)}</h1>",
-            "    <p>Interactive index for repository FAIRness history plots generated from files matching Rep*.png.</p>",
+            f"    <h1>{page_title}</h1>",
+            f"    <p>{page_description}</p>",
+            '    <p>&nbsp;</p>',
+            f"    <p>{page_additional_info}</p>",
+            '    <p>&nbsp;</p>',
+            f"    <p>{page_fairness_info}</p>",
+            '    <p>&nbsp;</p>',
+            f"    <p>{page_gallery_info}</p>",
             "  </header>",
             "",
+            
             "  <main>",
-
+            "<h2>Check the <a href=\"https://bit.ly/FAIRUseCasesForDataCite\">Radar Plot Key</a> for more information about the use cases and how to interpret the plots.</h2>",
             '    <div class="selector" aria-label="Image selector">',
-            "      <h2>Quick Select</h2>",
+            "      <h2>Use Quick Select if you know the repository id.</h2>",
             '      <div class="selector-controls">',
             '        <label for="image-picker">Choose an image:</label>',
             '        <select id="image-picker">',
@@ -317,13 +324,16 @@ def build_html(image_names: list[str], page_title: str, range_html: str) -> str:
             "    </div>",
             "",
                     "<nav>"
-                    "<h3>Repository FAIRness Ranges</h3>",
+                    "<h2>Repository FAIRness Ranges</h2>",
+                    "<p>Repositories with FAIRness range of 15% or more over ten years are shown in the table below. Click on a repository identifier to jump to its time history.</p>",
+                    "<p>&nbsp;</p>",
                     f"{range_html}",
                     "</nav>",
 
     
             "    <nav>",
             "      <h2>Contents</h2>",
+            "      <p>Click on a repository identifier to jump to its time history.</p>",
             "      <ul>",
             *toc_items,
             "      </ul>",
@@ -352,6 +362,21 @@ def build_html(image_names: list[str], page_title: str, range_html: str) -> str:
         ]
     )
 
+page_description = """The FAIR Principles were proposed a decade ago to guide the management and stewardship of scientific data. Version 4.0 of the DataCite metadata schema was released during the same year.
+    The schema continues to evolve to support the FAIR principles and <a href="https://doi.org/10.59350/wgret-2kd02">other emergent metadata needs</a>."""
+page_additional_info = """Almost 600 DataCite repositories have been creating DOIs since 2017. We determined yearly FAIRness of those repositories using the same 
+    tools used for recognizing <a href="https://doi.org/10.59350/v2may-69s52">several kinds of bright spots</a>.
+    We measured the range of completeness (max-min) over ten years to find repositories that had become more FAIR. This page shows yearly time histories for these 
+    repositories as radar plots for each of four use cases (Text, Identifiers, Connections, and Contacts). Each use case is a row with yearly columns. Yearly Total FAIRness is shown in parentheses
+    in the column titles and yearly scores for each use case are shown below the radar plots. Metadata completeness is visually represented by the radar plot areas. Increases in completeness 
+    are reflected by radar plots filling up. Check the <a href="https://bit.ly/FAIRUseCasesForDataCite">Radar Plot Key</a> for more information about the use cases and how to interpret the plots."""
+page_fairness_info = """ These data show that FAIRness can be achieved in many ways and that improvements occur in different patterns. In some cases they happen simultaneously over several use cases, 
+    in others they happen in distinct steps, reflecting different strategies and priorities. FAIRness is not a destination but a journey. We hope these data will inspire and guide 
+    others on their own FAIRness journeys. We also hope they will encourage repository managers to share their own strategies and successes."""
+page_gallery_info = """This gallery includes repositories that have been <i>active in DataCite since at least 2017 and have changed overall FAIRness by 15% or more.</i> 
+    The data can be browsed by scrolling through the images or repositories can be selected using the quick select dropdown, the Table organized by Range, or the alphabetical list.
+    <hr style="height:2px;color:gray;background-color:gray">
+    <p>Repository FAIRness Time Histories created June 2026 &copy; by <a href="https://metadatagamechangers.com">Metadata Game Changers</a> is licensed under <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/">CC BY-NC-SA 4.0</a></p>"""
 
 def main() -> None:
     parser = argparse.ArgumentParser(
