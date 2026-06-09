@@ -374,9 +374,9 @@ page_fairness_info = """ These data show that FAIRness can be achieved in many w
     in others they happen in distinct steps, reflecting different strategies and priorities. FAIRness is not a destination but a journey. We hope these data will inspire and guide 
     others on their own FAIRness journeys. We also hope they will encourage repository managers to share their own strategies and successes."""
 page_gallery_info = """This gallery includes repositories that have been <i>active in DataCite since at least 2017 and have changed overall FAIRness by 15% or more.</i> 
-    The data can be browsed by scrolling through the images or repositories can be selected using the quick select dropdown, the Table organized by Range, or the alphabetical list.
+    The data can be browsed by scrolling through the images or repositories can be selected using the quick select dropdown, the Table organized by Range, or the alphabetical list."
     <hr style="height:2px;color:gray;background-color:gray">
-    <p>Repository FAIRness Time Histories created June 2026 &copy; by <a href="https://metadatagamechangers.com">Metadata Game Changers</a> is licensed under <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/">CC BY-NC-SA 4.0</a></p>"""
+    <p>Repository FAIRness Time Histories created June 2026 &copy; by <a href="https://metadatagamechangers.com">Metadata Game Changers</a> is licensed under <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/">CC BY-NC-SA 4.0</a> The complete data are available at <a href="https://doi.org/10.5281/zenodo.20617483">https://doi.org/10.5281/zenodo.20617483</a></p>"""
 
 def main() -> None:
     parser = argparse.ArgumentParser(
